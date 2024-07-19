@@ -1,0 +1,50 @@
+-- Crear el usuario
+CREATE USER 'juan'@'%' IDENTIFIED BY 'juan';
+
+-- Conceder permisos
+GRANT SELECT, INSERT, UPDATE, CREATE, REFERENCES ON Practicum.* TO 'juan'@'%';
+-- Aplicar los cambios
+FLUSH PRIVILEGES;
+
+-- Verificar usuario y permisos
+SELECT user, host FROM mysql.user;
+SHOW GRANTS FOR 'juan'@'%';
+
+-- Crear la base de datos
+CREATE DATABASE Practicum;
+
+-- Usar la base de datos
+USE Practicum;
+
+-- Crear tabla de Archivos
+CREATE TABLE Archivo (
+    id_archivo INT NOT NULL AUTO_INCREMENT,
+    nombre_archivo VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id_archivo)
+);
+
+-- Crear tabla de Frases
+CREATE TABLE Frases (
+    id_frase INT NOT NULL AUTO_INCREMENT,
+    id_archivo INT NOT NULL,
+    frase VARCHAR(200),
+    PRIMARY KEY (id_frase),
+    FOREIGN KEY (id_archivo) REFERENCES Archivo(id_archivo) ON DELETE CASCADE
+);
+
+-- Crear tabla de Palabras
+CREATE TABLE Palabras (
+    id_palabra INT NOT NULL AUTO_INCREMENT,
+    palabra VARCHAR(50),
+    PRIMARY KEY (id_palabra),
+    UNIQUE (palabra)
+);
+
+-- Crear tabla de Frases_palabras para la relación muchos a muchos
+CREATE TABLE Frases_palabras (
+    id_palabra INT NOT NULL,
+    id_frase INT NOT NULL,
+    PRIMARY KEY (id_palabra, id_frase),
+    FOREIGN KEY (id_palabra) REFERENCES Palabras(id_palabra) ON DELETE CASCADE,
+    FOREIGN KEY (id_frase) REFERENCES Frases(id_frase) ON DELETE CASCADE
+);
