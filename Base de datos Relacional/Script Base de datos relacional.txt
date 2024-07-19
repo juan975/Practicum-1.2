@@ -36,15 +36,7 @@ CREATE TABLE Frases (
 CREATE TABLE Palabras (
     id_palabra INT NOT NULL AUTO_INCREMENT,
     palabra VARCHAR(50),
-    PRIMARY KEY (id_palabra),
-    UNIQUE (palabra)
-);
-
--- Crear tabla de Frases_palabras para la relación muchos a muchos
-CREATE TABLE Frases_palabras (
-    id_palabra INT NOT NULL,
     id_frase INT NOT NULL,
-    PRIMARY KEY (id_palabra, id_frase),
-    FOREIGN KEY (id_palabra) REFERENCES Palabras(id_palabra) ON DELETE CASCADE,
+    PRIMARY KEY (id_palabra),
     FOREIGN KEY (id_frase) REFERENCES Frases(id_frase) ON DELETE CASCADE
 );
